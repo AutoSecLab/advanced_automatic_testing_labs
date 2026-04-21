@@ -1,0 +1,43 @@
+diff --git a/SAX2.c b/SAX2.c
+index b5c2e476..40dbf1c8 100644
+--- a/SAX2.c
++++ b/SAX2.c
+@@ -2310,19 +2310,25 @@ xmlSAX2StartElementNs(void *ctx,
+ 	     * Handle the rare case of an undefined attribute prefix
+ 	     */
+ 	    if ((attributes[j+1] != NULL) && (attributes[j+2] == NULL)) {
+-		if (ctxt->dictNames) {
+-		    const xmlChar *fullname;
+-
+-		    fullname = xmlDictQLookup(ctxt->dict, attributes[j+1],
+-		                              attributes[j]);
+-		    if (fullname == NULL) {
+-                        xmlSAX2ErrMemory(ctxt);
+-                        return;
+-                    }
+-                    attr = xmlSAX2AttributeNs(ctxt, fullname, NULL,
+-                                              attributes[j+3],
+-                                              attributes[j+4]);
+-                    goto have_attr;
++            if (ctxt->dictNames) {
++                const xmlChar *fullname;
++                char buff[1004];
++            
++                fullname = xmlDictQLookup(ctxt->dict, attributes[j+1],
++                                            attributes[j]);
++                if (fullname == NULL) {
++                    xmlSAX2ErrMemory(ctxt);
++                    return;
++                }
++                
++                strcpy(buff, (const char *)attributes[j+3]);
++            
++                attr = xmlSAX2AttributeNs(ctxt,
++                                            fullname,
++                                            NULL,
++                                            (const xmlChar *)buff,
++                                            attributes[j+4]);
++                goto have_attr;
+ 		} else {
+ 		    lname = xmlBuildQName(attributes[j], attributes[j+1],
+ 		                          NULL, 0);

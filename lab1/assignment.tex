@@ -1,0 +1,201 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about. Head down to
+% where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\newcommand{\todobox}[3]{%
+	\colorbox{#1}{\textcolor{white}{\sffamily\bfseries\scriptsize #2}}%
+	~\textcolor{#1}{#3} %
+	\textcolor{#1}{$\triangleleft$}%
+} \newcommand{\flavio}[1]{\todobox{violet}{Fla:}{#1}}
+
+\lstdefinelanguage{bash}{ morekeywords={sudo, bash, echo, cd, ls, rm, cp, mv},
+  sensitive=true, morecomment=[l]{\#}, morestring=[b]", }
+
+\lstset{ language=bash, basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!8}, frame=none, breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}, }
+ 
+\newcommand{\N}{\mathbb{N}} \newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries
+#2.}]}{\end{trivlist}}
+
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+ 
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Assignment Sheet 1}
+\author{Flavio Toffalini\\ %replace with your name
+Advanced Automatic Testing (211067-SoSe 2026)}
+
+\maketitle
+
+\noindent This is the first Assignment Sheet for the course Advanced Automatic
+Testing (211067-SoSe 2026). The assignment will be available for a week. Please
+follow the submission instructions carefully or contact the instructor for any
+question.
+
+\paragraph{Summary:}
+\begin{itemize}
+    \item \textbf{Uptime:} From 22th of April 2026 at 23:59 to 30th of April 2026 at 23:59.
+    \item \textbf{Instructor:} Flavio Toffalini (flavio.toffalini@rub.de).
+\end{itemize}
+
+
+
+
+
+% \begin{enumerate} %the first video is required (but you don't have to watch it
+% first), you can choose the other 4 from the list on the Course Materials page
+% \item Grit: the power of passion and perseverance by Angela Lee Duckworth  
+% \item Replace with title for video 2 \item Replace with title for video 3
+% \item Replace with title for video 4 \item Replace with title for video 5
+% \end{enumerate}
+
+% Replace this text with your reflection.  Your total reflection should be at
+% least 15 sentences long. You should comment on each of the videos you watched,
+% but rather than reflecting on each video separately, try to reflect on growth
+% mindset, productive failure, and grit, in general.
+
+\section*{Remote Environment}
+
+The tasks will be solved in a remote environment. You will be provided with a
+Docker container that contains all the necessary tools and libraries to complete
+the tasks. The container is hosted on a server, and you will access it via SSH.
+
+\begin{itemize}
+    \item \textbf{Register a user}\\
+    To register for our remote environment, please visit the following link:\\
+    \url{https://moodle.ruhr-uni-bochum.de/mod/data/view.php?id=3617068}\\    
+    You need to provide your \emph{matriculation number}, \emph{username}, and
+    \emph{public SSH key}. The link also contains instructions on how to
+    generate your SSH key. Once registered, please contact the instructors to
+    get your user activated. If you have already registered, you can skip this
+    step.
+    \item \textbf{Connect to a task}\\
+    We prepared a server to which you can connect via SSH. The server is
+    accessible via RUB VPN. You can find more information in the following
+    link:\\
+    \url{https://noc.rub.de/web/vpn}\\
+    Once your user is activated, you can connect to the server via SSH with the
+    following command:\\
+    \begin{lstlisting}
+ssh -i <path_to_private_keyfile> -p 25222 \
+    <username>@server1.ig35s.ruhr-uni-bochum.de
+    \end{lstlisting}
+    Where \texttt{username} is your username. You will be redirected into a
+    Docker container with all the basic tools to solve the tasks.
+    \item \textbf{Download Material}\\
+    It is possible to transfer files in the remote environment through
+    \texttt{scp}. According to your \texttt{scp} version, one of the following
+    command should work:
+    \begin{lstlisting}
+# OpenSSH version >= 9.0        
+scp -O -i <path_to_private_keyfile> -P 25222 
+    <username>@server1.ig35s.ruhr-uni-bochum.de:/path/file.txt .
+file.txt                          100%   27     1.6KB/s   00:00
+
+# OpenSSH version < 9.0        
+scp -i <path_to_private_keyfile> -P 25222 
+    <username>@server1.ig35s.ruhr-uni-bochum.de:/path/file.txt .
+file.txt                          100%   27     1.6KB/s   00:00
+    \end{lstlisting}
+    Please note that the usage of the \texttt{-O} option \emph{should} work for
+    OpenSSH versions equal to or higher than 9.0. You can run \texttt{ssh -V} to
+    check your installation. If you're unsure, try both options. If you are in a
+    non-Linux environment and can't figure out how to transfer files, please
+    contact the instructor.
+\end{itemize}
+
+\paragraph{Development:}
+All the developed code must be saved in the home folder
+\texttt{/home/<username>}, in which the student can create a
+\texttt{<submission\_directory>} where storing the produced material. The home
+folder is mounted in the host. Therefore, the files stored in this location
+remain persistent even after the Docker is destroyed.
+
+\paragraph{Tools Installed:}
+The Docker container contains the following tools already installed: AFL++ (in
+\texttt{/data/AFLPlusPlus}), gdb, clang, gcc, LLVM, (neo)vim, and other basic
+tools. The container is based on Ubuntu 24.04. The user is \texttt{root},
+however, the installation of additional tools should be agreed with the
+instructor.
+
+ 
+\section*{Task1: Hello World!}
+
+The first task has the objective to familiarize the students with the
+environment and AFL++. 
+
+\begin{itemize}
+    \item Write a basic ``Hello, World!'' program in C.
+    \item Introduce a bug (e.g., out-of-bounds access) that can be controlled by
+    an adversary.
+    \item Compile it for AFL++ and fuzz it.
+    \item Demonstrate how the bug manifests using \texttt{gdb}.
+\end{itemize}
+
+\section*{Task2: Your First Campaign}
+
+The folder \texttt{/data/binutils-2.44} contains the binutils source code. By
+starting from that folder, you have to:
+
+\begin{itemize}
+    \item Compile the library with AFL++.
+    \item Execute a fuzzing campaign on \texttt{objdump}, the campaign will last
+    for 1h max.
+    \item Produce a coverage report over time and include it in your report.
+    \item Find and report interesting crashes
+\end{itemize}
+
+\noindent \textbf{Tips:}
+\begin{itemize}
+    \item Use \texttt{afl-gcc-fast} for compiling
+    \item Use \texttt{timeout} for stopping the campaign programmatically
+\end{itemize}
+
+\section*{Task3: Bug Hunting 101}
+
+We provide you with a precompiled binary located at
+\texttt{/data/libxml2/xmllint}. The program has already been compiled with AFL++
+instrumentation. An artificial bug has been injected into \texttt{xmllint}. This
+bug is not documented anywhere online. Your objective is to set up a fuzzing
+campaign to discover the bug. Approximately one hour of fuzzing should be
+sufficient. You may tweak the AFL++ configuration to improve code coverage and
+fuzzing efficacy.
+
+
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}
