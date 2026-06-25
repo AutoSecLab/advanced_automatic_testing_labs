@@ -12,10 +12,11 @@ RUN mkdir -p ${WORKDIR}/libmsg
 
 # Place source code in the container.
 # Students are expected to compile this library themselves (see assignment).
-COPY msgparser.h  ${WORKDIR}/libmsg/
-COPY msgparser.c  ${WORKDIR}/libmsg/
-COPY driver.cc    ${WORKDIR}/libmsg/
-COPY crash_seed   ${WORKDIR}/libmsg/
+COPY msgparser.h   ${WORKDIR}/libmsg/
+COPY msgparser.c   ${WORKDIR}/libmsg/
+COPY driver.cc     ${WORKDIR}/libmsg/
+COPY cov_driver.cc ${WORKDIR}/libmsg/
+COPY crash_seed    ${WORKDIR}/libmsg/
 # COPY get_coverage_report.sh ${WORKDIR}/libmsg/
 # RUN chmod +x ${WORKDIR}/libmsg/get_coverage_report.sh
 
